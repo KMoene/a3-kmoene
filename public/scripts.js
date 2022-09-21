@@ -199,7 +199,7 @@ window.onload = function () {
     //console.log("Pinging server...")
     const servconn = document.getElementById('serv-conn');
 
-    timeoutfetch('/getmsg', 300) // throw after max 5 seconds timeout error
+    timeoutfetch('/getmsg', 1900) // throw after max 5 seconds timeout error
       .then((result) => {
         servconn.textContent = "✓ Server Online"
         servconn.style.fontSize = 8;
@@ -211,5 +211,5 @@ window.onload = function () {
         servconn.textContent = "✘ Server Unreachable!"
         servconn.style.color = "#ff0000"
       })
-  }, 600);
+  }, 2000);
 }
