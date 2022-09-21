@@ -138,7 +138,8 @@ const axios = require('axios')
 // This is the client ID and client secret that you obtained
 // while registering on github app
 const clientID = 'f0e9dfff40fad91865a8'
-const clientSecret = '1101c72786a9d1653a67b3a2e0be27c98397f1d9'
+//replaced by a fresh secret. Old secret is no longer usable
+const clientSecret = process.env.GHSECRET
 
 // Declare the callback route
 app.get('/github/callback', (req, res) => {
