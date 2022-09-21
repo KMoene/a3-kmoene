@@ -9,7 +9,7 @@ const express = require('express'),
 
 require('dotenv').config()
 
-const uri = 'mongodb+srv://' + process.env.USER + ':' + process.env.PASS + '@' + process.env.HOST
+const uri = 'mongodb+srv://' + process.env.DBUSER + ':' + process.env.DBPASS + '@' + process.env.HOST
 const client = new mongo.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 let collection = null
 console.log(uri)
