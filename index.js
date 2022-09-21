@@ -32,7 +32,7 @@ app.use(express.static('public'))
 app.use(express.static('views'))
 app.use(cookie({
   name: 'moene-session',
-  keys: ['4452fXlpibplPj7MkBPbuTu3cOgBZl6A', '6ZNGtnFFg2NyQRX1HFLXzJGljQWJ38YR']
+  keys: [process.env.SECRETA, process.env.SECRETB]
 }))
 app.use(rid({
   headerName: 'X-RID'
