@@ -130,6 +130,11 @@ app.get('/getmsg', (req, res) => {
   )
 
 });
+app.get('/ping', (req, res) => {
+  res.json(JSON.stringify({
+    'Status':'OK'
+  }))
+});
 
 //oauth
 
