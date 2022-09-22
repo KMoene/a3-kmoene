@@ -207,7 +207,7 @@ window.onload = function () {
         updateList();
       })
       .catch((e) => {
-        //console.error(e)
+        console.error(e)
         servconn.textContent = "✘ Server Unreachable!"
         servconn.style.color = "#ff0000"
       })
