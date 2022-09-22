@@ -39,21 +39,27 @@ app.use(rid({
 }));
 app.use(express.json())
 app.use(compression({ filter: shouldCompress }))
-app.use(function (req, res, next) {  
+app.use(function (req, res, next) {
   //Custom middleware to change X-Powered-By
   res.setHeader("X-Powered-By", 'Moene Server v1.1');
   next();
 });
 app.post('/submit', (req, res) => {
+  if (req.session.login != true) {
+    res.writeHead(403, { 'Content-Type': 'application/json' })
+    res.end(JSON.stringify({
+      "Error": "NEED_LOGIN"
+    }))
+  }
   console.log(req.body)
   switch (req.body.action) {
     case "new":
       let tempdata = {}
       console.log(req.body)
       tempdata.name = req.session.name
-      if (req.body.message!="") {
+      if (req.body.message != "") {
         tempdata.message = req.body.message
-      }else{
+      } else {
         tempdata.message = "Nothing~"
       }
       tempdata.date = formatDate()
@@ -70,28 +76,28 @@ app.post('/submit', (req, res) => {
         mid: req.body.mid
       }
       collection
-      //The name field is used to enforce the user to only delete their own message on the server side
-        .deleteOne({ mid: Number(req.body.mid),name:req.session.name })
-        .then(result => { 
+        //The name field is used to enforce the user to only delete their own message on the server side
+        .deleteOne({ mid: Number(req.body.mid), name: req.session.name })
+        .then(result => {
           res.writeHead(200, { 'Content-Type': 'application/json' })
           res.end(JSON.stringify({
             "RESULT": "DELETE_OK"
           }))
-         })
+        })
       break;
     case "edit":
       collection
-      //The name field is used to enforce the user to only edit their own message on the server side
+        //The name field is used to enforce the user to only edit their own message on the server side
         .updateOne(
-          { mid: Number(req.body.mid),name:req.session.name },
+          { mid: Number(req.body.mid), name: req.session.name },
           { $set: { message: req.body.message } }
         )
-        .then(result => { 
+        .then(result => {
           res.writeHead(200, { 'Content-Type': 'application/json' })
           res.end(JSON.stringify({
             "RESULT": "EDIT_OK"
           }))
-         })
+        })
       break;
     default:
       res.writeHead(403, { 'Content-Type': 'application/json' })
@@ -103,7 +109,7 @@ app.post('/submit', (req, res) => {
 })
 app.get('/', (req, res) => {
   if (req.session.login == true) {
-    res.render('index', { motd: "Welcome: " + req.session.name,name:req.session.name });
+    res.render('index', { motd: "Welcome: " + req.session.name, name: req.session.name });
   } else {
     res.redirect('/login');
   }
@@ -116,6 +122,12 @@ app.get('/logout', (req, res) => {
   res.redirect('/login');
 });
 app.get('/getmsg', (req, res) => {
+  if (req.session.login != true) {
+    res.writeHead(403, { 'Content-Type': 'application/json' })
+    res.end(JSON.stringify({
+      "Error": "NEED_LOGIN"
+    }))
+  }
   let response = []
   collection.find({}).toArray().then(result => {
     result.forEach(element => {
@@ -132,7 +144,7 @@ app.get('/getmsg', (req, res) => {
 });
 app.get('/ping', (req, res) => {
   res.json(JSON.stringify({
-    'Status':'OK'
+    'Status': 'OK'
   }))
 });
 
@@ -185,7 +197,7 @@ app.get('/github/callback', (req, res) => {
 function padTo2Digits(num) {
   return num.toString().padStart(2, '0');
 }
-function shouldCompress (req, res) {
+function shouldCompress(req, res) {
   if (req.headers['x-no-compression']) {
     return false
   }
