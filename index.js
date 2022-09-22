@@ -50,6 +50,7 @@ app.post('/submit', (req, res) => {
     res.end(JSON.stringify({
       "Error": "NEED_LOGIN"
     }))
+    return;
   }
   console.log(req.body)
   switch (req.body.action) {
@@ -127,6 +128,7 @@ app.get('/getmsg', (req, res) => {
     res.end(JSON.stringify({
       "Error": "NEED_LOGIN"
     }))
+    return;
   }
   let response = []
   collection.find({}).toArray().then(result => {
