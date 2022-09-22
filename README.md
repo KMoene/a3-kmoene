@@ -6,7 +6,7 @@ The goal of this application is a tool for my visitors to sign my guest book.
 
 The main challenge that I faced during the development of my app was how to make sure multiple devices stay sync in **real time** with the mongo db.
 
-I used GitHub OAuth for the authentication method because it the easiest to me and I does not need to maintain my own user database which increases security and decrease maintainence cost.
+I used GitHub OAuth for the authentication method because I do not need to maintain my own user database which increases security and decrease maintainence cost. There are logics on all critical APIs to safe guard the access.
 
 The CSS framework I used was Semantic UI. However, to maintain that WPI 2000s aesthetic, I only applied the CSS framework to UI widgets.
 
